@@ -92,7 +92,7 @@ const EmployeePage: React.FC = () => {
       });
     } else {
       setEditData(null);
-      setForm({ image: "", name: "", phone: "", division_id: "", position: "" });
+      setForm({ image: "https://randomuser.me/api/portraits/men/1.jpg", name: "", phone: "", division_id: "", position: "" });
     }
     setModalOpen(true);
   };
@@ -112,7 +112,7 @@ const EmployeePage: React.FC = () => {
       setModalOpen(false);
       setEditData(null);
       setForm({ image: "", name: "", phone: "", division_id: "", position: "" });
-      
+
       const res = await getEmployees({ page, name, division_id });
       setEmployees(res.data.data.employees || []);
       setPagination(res.data.pagination);
@@ -126,7 +126,7 @@ const EmployeePage: React.FC = () => {
     try {
       await deleteEmployee(deleteId);
       setDeleteId(null);
-      
+
       const res = await getEmployees({ page, name, division_id });
       setEmployees(res.data.data.employees || []);
       setPagination(res.data.pagination);
@@ -223,18 +223,34 @@ const EmployeePage: React.FC = () => {
               </button>
               <h3 className="text-xl font-bold mb-4">{editData ? "Edit" : "Tambah"} Employee</h3>
               <form onSubmit={handleSubmit} className="space-y-3">
-                <input type="text" name="image" placeholder="URL Foto" value={form.image} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
-                <input type="text" name="name" placeholder="Nama" value={form.name} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
-                <input type="text" name="phone" placeholder="Telepon" value={form.phone} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
-                <select name="division_id" value={form.division_id} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required>
-                  <option value="">Pilih Divisi</option>
-                  {divisions.map((div: any) => (
-                    <option key={div.id || div} value={div.id || div}>
-                      {div.name || div}
-                    </option>
-                  ))}
-                </select>
-                <input type="text" name="position" placeholder="Posisi" value={form.position} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
+                <div className="flex flex-col items-center mb-2">
+                  <img src={form.image} alt="Preview" className="w-20 h-20 rounded-full object-cover border mb-2" />
+                  <label className="block mb-1 font-medium">URL Foto</label>
+                  <input type="text" name="image" placeholder="URL Foto" value={form.image} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Nama</label>
+                  <input type="text" name="name" placeholder="Nama" value={form.name} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Telepon</label>
+                  <input type="text" name="phone" placeholder="Telepon" value={form.phone} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Divisi</label>
+                  <select name="division_id" value={form.division_id} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required>
+                    <option value="">Pilih Divisi</option>
+                    {divisions.map((div: any) => (
+                      <option key={div.id || div} value={div.id || div}>
+                        {div.name || div}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block mb-1 font-medium">Posisi</label>
+                  <input type="text" name="position" placeholder="Posisi" value={form.position} onChange={handleFormChange} className="w-full px-3 py-2 border rounded" required />
+                </div>
                 <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
                   Simpan
                 </button>
